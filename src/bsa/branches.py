@@ -49,8 +49,15 @@ class Condition:
         return Condition(self.variable, self.comparison.inverse(), self.bound)
         
     def is_true(self, variables: dict[str, float]) -> bool:
-        left = variables[self.variable]
-        right = variables[self.bound] if isinstance(self.bound, str) else self.bound
+        try:
+            left = variables[self.variable]
+        except KeyError:
+            return False
+
+        try:
+            right = variables[self.bound] if isinstance(self.bound, str) else self.bound
+        except KeyError:
+            return False
 
         if self.comparison is Comparison.LTE:
             return left <= right
