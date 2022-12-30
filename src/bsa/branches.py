@@ -47,6 +47,17 @@ class Condition:
 
     def inverse(self) -> Condition:
         return Condition(self.variable, self.comparison.inverse(), self.bound)
+        
+    def is_true(self, variables: dict[str, float]) -> bool:
+        left = variables[self.variable]
+        right = variables[self.bound] if isinstance(self.bound, str) else self.bound
+
+        if self.comparison is Comparison.LTE:
+            return left <= right
+        elif self.comparison is Comparison.GTE:
+            return left >= right
+        else:
+            raise ValueError(f"{self.comparison} is not a Comparison type")
 
     @property
     def variables(self) -> set[str]:
