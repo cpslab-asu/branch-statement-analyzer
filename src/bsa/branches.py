@@ -67,32 +67,53 @@ class InvalidConditionExpression(Exception):
     pass
 
 
+def _cmp_nonstrict(left: float, cmp: Comparison, right: float) -> bool:
+    if cmp is Comparison.LTE:
+        return left <= right
+    elif cmp is Comparison.GTE:
+        return left >= right
+    else:
+        raise TypeError(f"Unknown comparison {type(cmp)}")
+
+
+def _cmp_strict(left: float, cmp: Comparison, right: float) -> bool:
+    if cmp is Comparison.LTE:
+        return left < right
+    elif cmp is Comparison.GTE:
+        return left > right
+    else:
+        raise TypeError(f"Unknown comparison {type(cmp)}")
+
+
 @dataclass
 class Condition:
     """Representation of the boolean expression of a conditional statement.
 
-    This representation assumes that the condition is represented as an inequality, with a varaible
+    This representation assumes that the condition is represented as an inequality, with a variable
     on at least one side of the equation.
 
     Attributes:
         variable: The name of the variable on the left side of the comparison
         comparison: The comparison operator
         bound: The value or variable on the right side of the comparison
+        strict: Whether the inequality is strict (<, >) or nonstrict (<=,>=)
 
     """
     variable: str
     comparison: Comparison
     bound: str | float
+    strict: bool = False
 
     def inverse(self) -> Condition:
         """Invert the condition.
 
-        This function returns a new Condition instance rather than modifying the existing one.
+        If the condition is nonstrict, its inverse will be strict and vice versa. This function
+        returns a new Condition instance rather than modifying the existing one.
 
         Returns:
             A new Condition with the comparison inverted
         """
-        return Condition(self.variable, self.comparison.inverse(), self.bound)
+        return Condition(self.variable, self.comparison.inverse(), self.bound, not self.strict)
         
     def is_true(self, variables: dict[str, float]) -> bool:
         """Check if a condition is true given a set of variables.
@@ -119,12 +140,10 @@ class Condition:
         except KeyError:
             return False
 
-        if self.comparison is Comparison.LTE:
-            return left <= right
-        elif self.comparison is Comparison.GTE:
-            return left >= right
+        if self.strict:
+            return _cmp_strict(left, self.comparison, right)
         else:
-            raise ValueError(f"{self.comparison} is not a Comparison type")
+            return _cmp_nonstrict(left, self.comparison, right)
 
     @property
     def variables(self) -> set[str]:
