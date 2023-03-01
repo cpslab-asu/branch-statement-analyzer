@@ -5,24 +5,31 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+import os
+import sys
 
-project = 'Branch Statement Analyzer'
-copyright = '2023, Quinn Thibeault'
-author = 'Quinn Thibeault'
-release = '0.1.0'
+sys.path.insert(0, os.path.abspath("../src"))
+
+project = "Branch Statement Analyzer"
+copyright = "2023, Quinn Thibeault"
+author = "Quinn Thibeault"
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon"]
 
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
-html_static_path = ['_static']
+html_theme = "alabaster"
+html_static_path = ["_static"]
+
+add_module_names = False
+autodoc_member_order = "bysource"
+autodoc_typehints = "description"
+python_use_unqualified_type_names = True
