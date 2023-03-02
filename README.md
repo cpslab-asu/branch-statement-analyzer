@@ -1,5 +1,7 @@
 # Python Branch Statement Analyzer
 
+[![Documentation Status](https://readthedocs.org/projects/branch-statement-analzyer/badge/?version=latest)](https://branch-statement-analzyer.readthedocs.io/en/latest/?badge=latest)
+
 The purpose of this library is two-fold:
 
 1. Detect independent paths through a function and represent all paths as a
@@ -52,3 +54,8 @@ def myfunc(x):
 
 states, retval = myfunc(8)
 ```
+
+## Documentation
+
+Documentation for this project can be found on
+[Read the Docs](https://branch-statement-analzyer.readthedocs.io)
