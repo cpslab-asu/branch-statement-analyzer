@@ -9,7 +9,7 @@ build:
       - pip install poetry
       - poetry config virtualenvs.create false
     post_install:
-      - poetry install
+      - poetry install --without main,dev --with docs
 
 sphinx:
   configuration: docs/conf.py
