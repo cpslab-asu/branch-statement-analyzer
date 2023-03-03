@@ -41,7 +41,7 @@ class Comparison(Enum):
         raise ValueError(f"Unknown comparison type {self}")
 
     @staticmethod
-    def from_op(op: ast.cmpop) -> Comparison:
+    def from_op(node: ast.cmpop) -> Comparison:
         """Create a comparison from an AST node.
 
         Args:
@@ -54,35 +54,38 @@ class Comparison(Enum):
             TypeError: If op is not an AST comparison node
         """
 
-        if isinstance(op, ast.LtE):
+        if isinstance(node, ast.LtE):
             return Comparison.LTE
 
-        if isinstance(op, ast.GtE):
+        if isinstance(node, ast.GtE):
             return Comparison.GTE
 
-        raise TypeError(f"Unsupported comparison operator {op}")
+        raise TypeError(f"Unsupported comparison operator {node}")
 
 
 class InvalidConditionExpression(Exception):
+    # pylint: disable=C0115
     pass
 
 
 def _cmp_nonstrict(left: float, cmp: Comparison, right: float) -> bool:
     if cmp is Comparison.LTE:
         return left <= right
-    elif cmp is Comparison.GTE:
+
+    if cmp is Comparison.GTE:
         return left >= right
-    else:
-        raise TypeError(f"Unknown comparison {type(cmp)}")
+
+    raise TypeError(f"Unknown comparison {type(cmp)}")
 
 
 def _cmp_strict(left: float, cmp: Comparison, right: float) -> bool:
     if cmp is Comparison.LTE:
         return left < right
-    elif cmp is Comparison.GTE:
+
+    if cmp is Comparison.GTE:
         return left > right
-    else:
-        raise TypeError(f"Unknown comparison {type(cmp)}")
+
+    raise TypeError(f"Unknown comparison {type(cmp)}")
 
 
 @dataclass
@@ -143,8 +146,8 @@ class Condition:
 
         if self.strict:
             return _cmp_strict(left, self.comparison, right)
-        else:
-            return _cmp_nonstrict(left, self.comparison, right)
+
+        return _cmp_nonstrict(left, self.comparison, right)
 
     @property
     def variables(self) -> set[str]:
@@ -152,8 +155,8 @@ class Condition:
 
         if isinstance(self.bound, str):
             return set((self.variable, self.bound))
-        else:
-            return set((self.variable,))
+
+        return set((self.variable,))
 
     @classmethod
     def from_expr(cls, expr: ast.expr) -> Condition:
@@ -301,6 +304,7 @@ def _expr_trees(expr: ast.expr, tcs: list[BranchTree], fcs: list[BranchTree]) ->
     Raises:
         TypeError: If the condition expression node is not a supported type
     """
+    # pylint: disable=W0105
 
     if not isinstance(expr, ast.BoolOp):
         condition = Condition.from_expr(expr)
