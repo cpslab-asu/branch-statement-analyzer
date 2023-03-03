@@ -99,6 +99,7 @@ class Condition:
         strict: Whether the inequality is strict (<, >) or nonstrict (<=,>=)
 
     """
+
     variable: str
     comparison: Comparison
     bound: str | float
@@ -114,7 +115,7 @@ class Condition:
             A new Condition with the comparison inverted
         """
         return Condition(self.variable, self.comparison.inverse(), self.bound, not self.strict)
-        
+
     def is_true(self, variables: dict[str, float]) -> bool:
         """Check if a condition is true given a set of variables.
 

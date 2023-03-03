@@ -123,7 +123,7 @@ class Kripke(Generic[_LabelT]):
 
         Returns:
             A new Kripke structure with the new edge
-        
+
         Raises:
             ValueError: If the source or target state is not in the Kripke structure
         """
