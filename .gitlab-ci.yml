@@ -42,7 +42,7 @@ pyright:
     - apt update
     - apt install -y python3-pip
     - pip install poetry
-    - poetry install --only-root
+    - poetry install --only main --only test
   script:
     - pyright
 
