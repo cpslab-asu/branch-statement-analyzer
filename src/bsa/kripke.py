@@ -239,4 +239,4 @@ class Kripke(Generic[_LabelT]):
         return Kripke(states, initial, labels, edges)
 
 
-__all__ = ["Kripke", "State"]
+__all__ = ["Edge", "Kripke", "State"]
