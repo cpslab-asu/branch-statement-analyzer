@@ -9,5 +9,5 @@ __all__ = [
     "Edge",
     "Kripke",
     "State",
-    "instrument_function"
+    "instrument_function",
 ]

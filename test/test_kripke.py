@@ -1,5 +1,7 @@
-from bsa import Edge, Kripke, State
 from pytest import fixture
+
+from bsa import Edge, Kripke, State
+
 
 def kripke():
     states = [State(), State()]
