@@ -187,6 +187,8 @@ def _instrument_expr(expr: ast.expr, dict_name: str) -> tuple[Optional[ast.stmt]
     Returns:
         An optional dictionary assignment statement and an instrumented expression
     """
+    # pylint: disable=W0613
+
     return (None, expr)
 
 
@@ -234,6 +236,7 @@ def _instrument_condition(expr: ast.expr, dict_name: str) -> tuple[list[ast.stmt
         expression and an instrumented expression with variable accesses replaced with dictionary
         accesses.
     """
+    # pylint: disable=W0613
 
     return ([], expr)
 
@@ -310,6 +313,7 @@ def _instrument_stmt(stmt: ast.stmt, dict_name: str) -> tuple[list[ast.stmt], as
     Returns:
         A tuple containing a list of dictionary assignment statements and the instrumented statement
     """
+    # pylint: disable=W0613
 
     return ([], stmt)
 
