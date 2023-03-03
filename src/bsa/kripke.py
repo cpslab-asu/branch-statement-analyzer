@@ -220,22 +220,26 @@ class Kripke(Generic[_LabelT]):
             A Kripke structure with matching states replaced
         """
 
-        replacements: dict[State, State] = {}
+        replacements: dict[State, State] = {state: state for state in self._states}
 
         for state in self.states:
             if state in states:
                 replacements[state] = State()
 
-        states = [replacements.get(state, state) for state in self._states]
-        initial = {replacements.get(state, state): self._initial[state] for state in self._states}
-        labels = {replacements.get(state, state): self._labels[state] for state in self._states}
+        states = [replacements[state] for state in self._states]
+        initial = {replacements[state]: self._initial[state] for state in self._states}
+        labels = {replacements[state]: self._labels[state] for state in self._states}
+
+        print(self._initial)
+        print(initial)
 
         def _update_edge(edge: Edge) -> Edge:
             if edge.source not in replacements and edge.target not in replacements:
                 return edge
 
-            source = replacements.get(edge.source, edge.source)
-            target = replacements.get(edge.target, edge.target)
+            source = replacements[edge.source]
+            target = replacements[edge.target]
+
             return Edge(source, target)
 
         edges = [_update_edge(edge) for edge in self._edges]
