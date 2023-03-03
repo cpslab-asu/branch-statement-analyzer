@@ -1,0 +1,93 @@
+image: python:3.10-slim
+
+stages:
+  - lint
+  - test
+  - publish
+
+variables:
+  POETRY_VIRTUALENVS_CREATE: 0
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+      - .cache/pip
+
+black:
+  stage: lint
+  before_script:
+    - pip install black
+  script:
+    - black --check src
+
+isort:
+  stage: lint
+  before_script:
+    - pip install isort
+  script:
+    - isort --check src
+
+pylint:
+  stage: lint
+  before_script:
+    - pip install pylint
+  script:
+    - pylint --output-format colorized --score n --report y src
+
+pyright:
+  stage: lint
+  image: node:18-bullseye
+  before_script:
+    - npm install -g pyright
+    - pip install poetry
+    - poetry install --only-root
+  script:
+    - pyright
+
+.test-job:
+  stage: test
+  before_script:
+    - pip install poetry
+    - poetry install --without dev
+  script:
+    - pytest --junit-xml="pytest-${PYTHON_VERSION}.xml"
+  artifacts:
+    when: always
+    paths:
+      - "pytest-${PYTHON_VERSION}.xml"
+    reports:
+      junit: "pytest-${PYTHON_VERSION}.xml"
+
+test-3.9:
+  extends: .test-job
+  image: python:3.9
+  variables:
+    PYTHON_VERSION: "3.9"
+
+test-3.10:
+  extends: .test-job
+  image: python:3.10
+  variables:
+    PYTHON_VERSION: "3.10"
+
+test-3.11:
+  extends: .test-job
+  image: python:3.11
+  variables:
+    PYTHON_VERSION: "3.11"
+
+pypi:
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.d+$/
+  before_script:
+    - pip install poetry
+  script:
+    - poetry publish --build
+  artifacts:
+    untracked: false
+    when: on_success
+    paths:
+      - dist/*.whl
+  
+  
