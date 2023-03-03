@@ -18,14 +18,14 @@ black:
   before_script:
     - pip install black
   script:
-    - black --check src
+    - black --check src test
 
 isort:
   stage: lint
   before_script:
     - pip install isort
   script:
-    - isort --check src
+    - isort --check src test
 
 pylint:
   stage: lint
