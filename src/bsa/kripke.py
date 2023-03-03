@@ -80,6 +80,10 @@ class Kripke(Generic[_LabelT]):
         """Set of initial states of the Kripke structure"""
         return [state for state in self._states if self._initial[state] is True]
 
+    @property
+    def edges(self) -> list[Edge]:
+        return self._edges.copy()
+
     def states_from(self, state: State) -> list[State]:
         """Return the set of all states reachable from a given state.
 
