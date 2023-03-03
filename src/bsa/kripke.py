@@ -82,6 +82,7 @@ class Kripke(Generic[_LabelT]):
 
     @property
     def edges(self) -> list[Edge]:
+        """Set of edges between all states of the Kripke structure"""
         return self._edges.copy()
 
     def states_from(self, state: State) -> list[State]:
