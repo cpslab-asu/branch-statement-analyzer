@@ -37,7 +37,8 @@ class Kripke(Generic[_LabelT]):
     A Kripke structure is a 4-tuple composed of the following elements:
       - A set of states S
       - A set of initial states I that is a subset of S
-      - A set of directed edges E where each edge has a starting state S1 and an ending state S2 that are both elements of S
+      - A set of directed edges E where each edge has a starting state S1 and an ending state S2
+        that are both elements of S
       - A labeling function L that returns a set of labels for each state in S
 
     This class is generic over the type used to represent the labels. In general, labels are boolean
