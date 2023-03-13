@@ -8,7 +8,7 @@ from functools import reduce
 from typing import Any, Callable, Sequence, cast
 
 from .instrumentation import variable_name
-from .kripke import Kripke
+from .kripke import Kripke, State
 
 
 class Comparison(Enum):
@@ -400,4 +400,21 @@ def _block_trees(block: Sequence[ast.stmt]) -> list[BranchTree]:
     return block_trees
 
 
-__all__ = ["BranchTree", "Comparison", "Condition"]
+def active_branches(kripke: Kripke[Condition], variables: dict[str, float]) -> list[State]:
+    """Compute branches that are active given a set of variables.
+
+    Args:
+        kripke: The kripke structure containing states representing conditional branches
+        variables: The set of variable values the state labels depend on
+
+    Returns:
+        The list of states that are active given the set of variables.
+    """
+
+    def is_active(state: State) -> bool:
+        return all(label.is_true(variables) for label in kripke.labels_for(state))
+
+    return [state for state in kripke.states if is_active(state)]
+
+
+__all__ = ["BranchTree", "Comparison", "Condition", "active_branches"]
