@@ -154,9 +154,9 @@ class Condition:
         """The set of variables depended on by the condition."""
 
         if isinstance(self.bound, str):
-            return set((self.variable, self.bound))
+            return {self.variable, self.bound}
 
-        return set((self.variable,))
+        return {self.variable}
 
     @classmethod
     def from_expr(cls, expr: ast.expr) -> Condition:
