@@ -244,7 +244,7 @@ class BranchTree:
                 for kripke in child.as_kripke()
             ]
 
-        return [tk.join(fk) for (tk, fk) in zip(true_kripkes, false_kripkes)]
+        return [tk.join(fk) for tk in true_kripkes for fk in false_kripkes]
 
     @property
     def variables(self) -> set[str]:
