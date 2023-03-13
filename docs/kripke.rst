@@ -10,6 +10,9 @@ Kripke Module
   \in R`. For a set of atomic propositions :math:`AP` the labeling function :math:`L` associates a
   subset of :math:`AP` that hold in each state.
 
+Introduction
+============
+
 This module defines the Kripke structure used to represent the different branches of a potentially
 nested conditional expression. The labels for each state represent a single combination of
 evaluations for the conditional expression guards. For example, given the following simple
