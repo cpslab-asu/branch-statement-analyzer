@@ -30,6 +30,7 @@ This project is available for installation on `PyPI`_ using the command ``pip in
 branch-statement-analyzer``. For most cases, we suggest using a virtual environment manager like
 `Poetry`_, `Pipenv`_, `Hatch`_, or a full installation manager like `Conda`_ or `Mamba`_.
 
+.. _`PyPI`: https://pypi.org
 .. _`Poetry`: https://python-poetry.org
 .. _`Pipenv`: https://pipenv.pypa.io
 .. _`Hatch`: https://hatch.pypa.io
