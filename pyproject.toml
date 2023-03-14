@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "branch-statement-analyzer"
-version = "0.1.0"
+version = "1.0.0"
 description = "Branch statement analysis and state decomposition for Python 3.8+"
 authors = ["Quinn Thibeault <quinn.thibeault96@gmail.com>"]
 license = "BSD-3-Clause"
