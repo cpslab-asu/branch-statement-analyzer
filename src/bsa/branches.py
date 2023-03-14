@@ -202,6 +202,14 @@ class Condition:
 
         raise TypeError("Invalid comparison expression")
 
+    @classmethod
+    def lt(cls, variable: str, bound: str | float, *, strict: bool = False) -> Condition:
+        return cls(variable, Comparison.LTE, bound, strict)
+
+    @classmethod
+    def gt(cls, variable: str, bound: str | float, *, strict: bool = False) -> Condition:
+        return cls(variable, Comparison.GTE, bound, strict)
+
 
 @dataclass
 class BranchTree:
