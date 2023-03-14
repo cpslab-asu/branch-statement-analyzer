@@ -61,4 +61,7 @@ Classes
 .. autoclass:: bsa.branches.BranchTree
    :members:
 
+Functions
+=========
+
 .. autofunction:: bsa.branches.active_branches
