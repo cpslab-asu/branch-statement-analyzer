@@ -23,6 +23,51 @@ thermostat controller branches.
 .. _`psy-taliro`: https://gitlab.com/sbtg/psy-taliro
 .. _`two room thermostat`: https://gitlab.com/sbtg/instrumentation/thermostat-model
 
+Usage
+=======
+
+The following is an example using this library to determine which branch was taken during the
+function exection without observing the return value.
+
+.. testcode::
+
+   from bsa import BranchTree, instrument_function, active_branches
+
+   def func(x, y):
+      if x <= 5:
+         if y <= 20:
+            return 1
+         else:
+            return 2
+      else:
+         if y <= 30:
+            return 3
+         else:
+            return 4
+
+   trees = BranchTree.from_function(func)
+
+   assert len(trees) == 1
+
+   tree = trees[0]
+   kripkes = tree.as_kripke()
+
+   assert len(kripkes) == 1
+
+   kripke = kripkes[0]
+   instrumented = instrument_function(func)
+   variables, _ = instrumented(11, 20)
+   states = active_states(kripke, variables)
+
+   assert len(states) == 1
+
+   state = states[0]
+   labels = kripke.labels_for(state)
+
+   assert len(labels) == 2
+   assert Comparison.gt("x", 5, strict=True) in labels
+   assert Comparison.lt("y", 30, strict=False) in labels
+
 Installation
 ============
 
