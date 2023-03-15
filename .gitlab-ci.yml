@@ -27,12 +27,18 @@ isort:
   script:
     - isort --check src test
 
-pylint:
+ruff:
   stage: lint
   before_script:
-    - pip install pylint
+    - pip install ruff
   script:
-    - pylint --output-format colorized --score n --report y src
+    - ruff --format gitlab src test > quality-report.json
+  artifacts:
+    when: always
+    paths:
+      - "quality-report.json"
+    reports:
+      codequality: "quality-report.json"
 
 pyright:
   stage: lint
