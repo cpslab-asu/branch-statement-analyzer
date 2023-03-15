@@ -3,7 +3,7 @@ from pytest import fixture
 from bsa import Edge, Kripke, State
 
 
-def kripke():
+def kripke() -> Kripke:
     states = [State(), State()]
     initial = {
         states[0]: True,
@@ -22,16 +22,16 @@ def kripke():
 
 
 @fixture
-def k1():
+def k1() -> Kripke:
     return kripke()
 
 
 @fixture
-def k2():
+def k2() -> Kripke:
     return kripke()
 
 
-def test_join(k1, k2):
+def test_join(k1: Kripke, k2: Kripke):
     joined = k1.join(k2)
     assert len(joined.states) == 4
     assert len(joined.initial_states) == 4

@@ -1,7 +1,7 @@
 from bsa import BranchTree, Comparison, Condition
 
 
-def func(x1, x2):
+def func(x1: float, x2: float) -> float:
     if x1 <= 10:
         if x2 >= 5:
             return x1 + x2
@@ -34,7 +34,7 @@ def test_branches():
     assert len(false_child.false_children) == 0
 
 
-def func2(x, y, z):
+def func2(x: int, y: int, z: int) -> int:
     if x <= 1:
         if y <= 2:
             ...
