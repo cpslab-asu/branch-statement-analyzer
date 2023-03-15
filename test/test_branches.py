@@ -34,7 +34,7 @@ def test_branches():
     assert len(false_child.false_children) == 0
 
 
-def func2(x: int, y: int, z: int) -> int:
+def func2(x: int, y: int, z: int):
     if x <= 1:
         if y <= 2:
             ...
